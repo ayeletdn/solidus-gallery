@@ -32,9 +32,6 @@ export class MyGalleryComponent implements OnInit {
   }
 
   openSlideshow(index: number): void {
-    // prevent opening slideshow for error images
-    // TODO: change mouse indicator in template
-    if (this.feed.feed[index].failed) return;
     // open lightbox
     this._lightbox.open(this.slideshow, index);
     this.slideshowSub = this._lightboxEvent.lightboxEvent$
@@ -49,22 +46,24 @@ export class MyGalleryComponent implements OnInit {
   sort(by:string) {
     this.sortBy = by;
     this.feedItems = by ? this.feed.sort(by, this.sortOrder) : this.feed.feed;
+    this.setSlideshow()
   }
 
   order(order:string) {
     this.sortOrder = order;
     this.feedItems = this.feed.sort(this.sortBy, order);
+    this.setSlideshow()
   }
 
   ngOnInit() {
     this.feedService.getAsset(this.assetFile).subscribe((data:Array<FeedItem>) => {
       this.feed = new FeedArray(data);
       this.feedItems = this.feed.feed;
-      this.initSlideShow();
+      this.setSlideshow();
     });
   }
 
-  private initSlideShow():void {
+  private setSlideshow():void {
     this.slideshow = this.feedItems.map(item => {
       return {src: item.url, caption: item.title};
     });

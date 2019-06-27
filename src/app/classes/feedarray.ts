@@ -15,13 +15,13 @@ export class FeedArray  {
   /**
    * Mark an item as failed to load
    * @param i the index at the feed to be marked as failed
+   * @returns the offending url
    */
   fail(i:number):string {
     const item = this.feed[i];
     const failedUrl = item.url;
-    item.url = 'https://www.shareicon.net/data/128x128/2016/07/21/799500_people_512x512.png';
-    item.title = item.title + "(LOAD FAILED)";
-    item.failed = true;
+    // remove the bad item
+    this.feed.splice(i, 1);
     return failedUrl;
   }
 
