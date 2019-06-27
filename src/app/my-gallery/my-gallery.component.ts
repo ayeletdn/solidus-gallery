@@ -13,7 +13,9 @@ import { Subscription } from 'rxjs';
 export class MyGalleryComponent implements OnInit {
   @Input() feed:string; // the name of the file in the assets 
   @Input() sorting:boolean = true; // enable sorting
+  @Input() search:boolean = true; // enable filter by title
   feedItems: Array<FeedItem>;
+  searchBy:string = "";
   sortBy:string;
   sortOrder:string = "ASC";
   private _feed:FeedArray;
@@ -44,16 +46,22 @@ export class MyGalleryComponent implements OnInit {
     this._lightbox.close();
   }
 
+  filter(on:string) {
+    this.searchBy = on;
+    this.feedItems = on ? this._feed.filter(on) : this._feed.list;
+    this.setSlideshow();
+  }
+
   sort(by:string) {
     this.sortBy = by;
     this.feedItems = by ? this._feed.sort(by, this.sortOrder) : this._feed.list;
-    this.setSlideshow()
+    this.setSlideshow();
   }
 
   order(order:string) {
     this.sortOrder = order;
     this.feedItems = this._feed.sort(this.sortBy, order);
-    this.setSlideshow()
+    this.setSlideshow();
   }
 
   ngOnInit() {

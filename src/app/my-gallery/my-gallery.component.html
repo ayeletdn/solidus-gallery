@@ -1,5 +1,9 @@
-<mat-toolbar color="primary" *ngIf="sorting">
+<mat-toolbar color="primary" *ngIf="sorting || search">
     <mat-toolbar-row>
+        <ng-container *ngIf="search">
+            <span>Search</span>
+            <input matInput type="text" (input)="filter($event.target.value)" [value]="searchBy">
+        </ng-container>
         <ng-container *ngIf="sorting">
             <span>Sort by</span>
             <mat-select (selectionChange)="sort($event.value)">

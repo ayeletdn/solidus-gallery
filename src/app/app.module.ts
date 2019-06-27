@@ -10,6 +10,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSelectModule } from '@angular/material/select';
 import { LightboxModule } from 'ngx-lightbox'; // https://www.npmjs.com/package/ngx-lightbox
+import { MatInputModule } from '@angular/material/input';
 
 
 
@@ -26,6 +27,7 @@ import { LightboxModule } from 'ngx-lightbox'; // https://www.npmjs.com/package/
     MatGridListModule,
     MatToolbarModule,
     MatSelectModule,
+    MatInputModule,
     LightboxModule
   ],
   providers: [],

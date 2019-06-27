@@ -3,3 +3,26 @@
     margin: 0 10px;
     padding: 0 10px;
 }
+
+.mat-toolbar .mat-input-element {
+    background: rgba(200,200,200,0.5);
+    border: none;
+    height: 30px;
+    padding: 0 10px;
+    margin: 0 10px;
+    color: white;
+    font-weight: bold;
+    width: 100%;
+}
+
+.mat-toolbar .mat-input-element::placeholder {
+    color: white;
+}
+
+@media only screen and (max-width: 600px) {
+    .mat-toolbar-row {
+        flex-direction: column;
+        height: 100%;
+        margin-bottom: 10px;
+    }
+}
