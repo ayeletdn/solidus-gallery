@@ -9,7 +9,10 @@ export class FeedArray  {
   private feed: Array<FeedItem> = [];
 
   constructor(feed:Array<FeedItem>) {
-    this.feed = feed;
+    // trying to use https to see if works on mobile
+    this.feed = feed.map((item:FeedItem) => {
+      return Object.assign(item, {url: FeedArray.setHttps(item.url)});
+    });
   }
 
   get list():Array<FeedItem> {
@@ -48,6 +51,11 @@ export class FeedArray  {
   }
 
   filter(title:string):Array<FeedItem> {
-    return this.feed.filter(item => {return item.title.indexOf(title) > -1});
+    return this.feed.filter(item => {return item.title.toLowerCase().indexOf(title.toLowerCase()) > -1});
   }
+
+  private static setHttps(url:string):string {
+    return url.replace('http://', 'https://');
+  }
+
 }
