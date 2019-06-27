@@ -6,10 +6,14 @@ export type FeedItem = {
     failed?: boolean
   };
 export class FeedArray  {
-  feed: Array<FeedItem> = [];
+  private feed: Array<FeedItem> = [];
 
   constructor(feed:Array<FeedItem>) {
     this.feed = feed;
+  }
+
+  get list():Array<FeedItem> {
+    return this.feed;
   }
 
   /**
@@ -41,5 +45,9 @@ export class FeedArray  {
       if (a[by] > b[by]) return order === "ASC" ?1:-1;
       return 0;
     });
+  }
+
+  filter(title:string):Array<FeedItem> {
+    return this.feed.filter(item => {return item.title.indexOf(title) > -1});
   }
 }

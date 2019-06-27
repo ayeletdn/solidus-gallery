@@ -11,11 +11,12 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./my-gallery.component.css']
 })
 export class MyGalleryComponent implements OnInit {
-  @Input() assetFile:string; // the name of the file in the assets 
+  @Input() feed:string; // the name of the file in the assets 
+  @Input() sorting:boolean = true; // enable sorting
   feedItems: Array<FeedItem>;
   sortBy:string;
   sortOrder:string = "ASC";
-  private feed:FeedArray;
+  private _feed:FeedArray;
   private slideshow = [];
   private slideshowSub:Subscription;
 
@@ -27,7 +28,7 @@ export class MyGalleryComponent implements OnInit {
 
   imageFallback(event) {
     const i = event.target.attributes['data-index'].value;
-    const url = this.feed.fail(i);
+    const url = this._feed.fail(i);
     this.removeFromSlideshow(url);
   }
 
@@ -45,20 +46,20 @@ export class MyGalleryComponent implements OnInit {
 
   sort(by:string) {
     this.sortBy = by;
-    this.feedItems = by ? this.feed.sort(by, this.sortOrder) : this.feed.feed;
+    this.feedItems = by ? this._feed.sort(by, this.sortOrder) : this._feed.list;
     this.setSlideshow()
   }
 
   order(order:string) {
     this.sortOrder = order;
-    this.feedItems = this.feed.sort(this.sortBy, order);
+    this.feedItems = this._feed.sort(this.sortBy, order);
     this.setSlideshow()
   }
 
   ngOnInit() {
-    this.feedService.getAsset(this.assetFile).subscribe((data:Array<FeedItem>) => {
-      this.feed = new FeedArray(data);
-      this.feedItems = this.feed.feed;
+    this.feedService.getAsset(this.feed).subscribe((data:Array<FeedItem>) => {
+      this._feed = new FeedArray(data);
+      this.feedItems = this._feed.list;
       this.setSlideshow();
     });
   }
