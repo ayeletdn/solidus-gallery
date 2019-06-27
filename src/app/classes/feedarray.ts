@@ -20,12 +20,8 @@ export class FeedArray  {
     return item;
   }
 
-  map(fn:Function) {
-    const output = [];
-    for (let i = 0; i < this.feed.length; i++) {
-      output.push(fn(this.feed[i], i, this.feed));
-    }
-    return output;
+  map(fn:(value:FeedItem, index:number, array:Array<FeedItem>) => Array<FeedItem>) {
+    return this.feed.map(fn);
   }
 
   /**
