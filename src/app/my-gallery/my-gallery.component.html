@@ -1,5 +1,20 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <span>Sort by</span>
+        <mat-select (selectionChange)="sort($event.value)">
+            <mat-option>None</mat-option>
+            <mat-option value="title">Title</mat-option>
+            <mat-option value="date">Date</mat-option>
+        </mat-select>
+        <span>Order</span>
+        <mat-select (selectionChange)="order($event.value)">
+                <mat-option value="ASC">Ascending</mat-option>
+                <mat-option value="DSC">Decending</mat-option>
+            </mat-select>
+        </mat-toolbar-row>
+</mat-toolbar>      
 <mat-grid-list cols="5" gutterSize="5">
-    <mat-grid-tile *ngFor="let item of feed; let i = index" >
+    <mat-grid-tile *ngFor="let item of feedItems; let i = index" >
         <div [title]="item.title">
             <img [src]="item.url" (error)="imageFallback($event)" (click)="openSlideshow(i)"
              [attr.data-index]="i" [alt]="item.title"/>

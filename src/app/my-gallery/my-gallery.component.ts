@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FeedService, FeedArray } from '../services/feed.service';
+import { FeedService } from '../services/feed.service';
+import { FeedArray, FeedItem} from '../classes/feedarray';
 import { Lightbox, LightboxEvent, LIGHTBOX_EVENT } from 'ngx-lightbox';
 import { Subscription } from 'rxjs';
 
@@ -11,7 +12,10 @@ import { Subscription } from 'rxjs';
 })
 export class MyGalleryComponent implements OnInit {
   @Input() assetFile:string; // the name of the file in the assets 
-  feed: FeedArray;
+  feedItems: Array<FeedItem>;
+  sortBy:string;
+  sortOrder:string = "ASC";
+  private feed:FeedArray;
   private slideshow = [];
   private slideshowSub:Subscription;
 
@@ -23,11 +27,8 @@ export class MyGalleryComponent implements OnInit {
 
   imageFallback(event) {
     const i = event.target.attributes['data-index'].value;
-    const item = this.feed[i];
+    const item = this.feed.fail(i);
     this.removeFromSlideshow(item.url);
-    item.url = 'https://www.shareicon.net/data/128x128/2016/07/21/799500_people_512x512.png';
-    item.title = "LOAD FAILED: " + item.title;
-    item.failed = true;
   }
 
   openSlideshow(index: number): void {
@@ -45,15 +46,26 @@ export class MyGalleryComponent implements OnInit {
     this._lightbox.close();
   }
 
+  sort(by:string) {
+    this.sortBy = by;
+    this.feedItems = by ? this.feed.sort(by, this.sortOrder) : this.feed.feed;
+  }
+
+  order(order:string) {
+    this.sortOrder = order;
+    this.feedItems = this.feed.sort(this.sortBy, order);
+  }
+
   ngOnInit() {
-    this.feedService.getAsset(this.assetFile).subscribe((data:FeedArray) => {
-      this.feed = data;
+    this.feedService.getAsset(this.assetFile).subscribe((data:Array<FeedItem>) => {
+      this.feed = new FeedArray(data);
+      this.feedItems = this.feed.feed;
       this.initSlideShow();
     });
   }
 
   private initSlideShow():void {
-    this.slideshow = this.feed.map(item => {
+    this.slideshow = this.feedItems.map(item => {
       return {src: item.url, caption: item.title};
     });
   }

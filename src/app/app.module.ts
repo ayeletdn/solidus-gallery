@@ -7,7 +7,10 @@ import { AppComponent } from './app.component';
 import { MyGalleryComponent } from './my-gallery/my-gallery.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { LightboxModule } from 'ngx-lightbox';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSelectModule } from '@angular/material/select';
+import { LightboxModule } from 'ngx-lightbox'; // https://www.npmjs.com/package/ngx-lightbox
+
 
 
 @NgModule({
@@ -21,6 +24,8 @@ import { LightboxModule } from 'ngx-lightbox';
     AppRoutingModule, // for later, to accept route to page
     BrowserAnimationsModule,
     MatGridListModule,
+    MatToolbarModule,
+    MatSelectModule,
     LightboxModule
   ],
   providers: [],
