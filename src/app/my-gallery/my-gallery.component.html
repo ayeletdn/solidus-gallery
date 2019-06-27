@@ -1,0 +1,8 @@
+<mat-grid-list cols="5" gutterSize="5">
+    <mat-grid-tile *ngFor="let item of feed; let i = index" >
+        <div [title]="item.title">
+            <img [src]="item.url" (error)="imageFallback($event)" (click)="openSlideshow(i)"
+             [attr.data-index]="i" [alt]="item.title"/>
+        </div>
+    </mat-grid-tile>
+</mat-grid-list>
