@@ -48,19 +48,28 @@ export class MyGalleryComponent implements OnInit {
 
   filter(on:string) {
     this.searchBy = on;
-    this.feedItems = on ? this._feed.filter(on) : this._feed.list;
+    // pre-sort if needed
+    const feed = on ? this._feed.filter(on, this.feedItems) : this.feedItems;
+    // then filter
+    this.feedItems = this.searchBy || this.sortOrder ? this._feed.sort(this.searchBy, this.sortOrder, feed) : feed;
     this.setSlideshow();
   }
 
   sort(by:string) {
     this.sortBy = by;
-    this.feedItems = by ? this._feed.sort(by, this.sortOrder) : this._feed.list;
+    // pre-filter if needed
+    const feed = this.searchBy ? this._feed.filter(this.searchBy) : this.feedItems;
+    // sort the filtered 
+    this.feedItems = by || this.sortOrder ? this._feed.sort(by, this.sortOrder, feed) : feed ;
     this.setSlideshow();
   }
 
   order(order:string) {
     this.sortOrder = order;
-    this.feedItems = this._feed.sort(this.sortBy, order);
+    // pre-filter if needed
+    const feed = this.searchBy ? this._feed.filter(this.searchBy) : this.feedItems;
+    // sort the filtered 
+    this.feedItems = this.sortBy || order ? this._feed.sort(this.sortBy, order, feed) : feed;
     this.setSlideshow();
   }
 

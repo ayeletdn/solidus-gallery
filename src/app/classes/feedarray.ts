@@ -42,16 +42,18 @@ export class FeedArray  {
    * @param by key to sort by. Default is title
    * @param order sort order. default ASC. any other value will be considered DSC (TODO)
    */
-  sort(by:string="title", order:string="ASC"):Array<FeedItem> {
-    return this.feed.slice().sort((a,b) => {
-      if (a[by] < b[by]) return order === "ASC" ?-1:1;
-      if (a[by] > b[by]) return order === "ASC" ?1:-1;
+  sort(by:string, order:string="ASC", feed:Array<FeedItem>=this.feed):Array<FeedItem> {
+    return feed.slice().sort((a,b) => {
+      a = by ? a[by] : a;
+      b = by ? b[by] : b;
+      if (a < b) return order === "ASC" ?-1:1;
+      if (a > b) return order === "ASC" ?1:-1;
       return 0;
     });
   }
 
-  filter(title:string):Array<FeedItem> {
-    return this.feed.filter(item => {return item.title.toLowerCase().indexOf(title.toLowerCase()) > -1});
+  filter(title:string, feed:Array<FeedItem>=this.feed):Array<FeedItem> {
+    return feed.filter(item => {return item.title.toLowerCase().indexOf(title.toLowerCase()) > -1});
   }
 
   private static setHttps(url:string):string {
