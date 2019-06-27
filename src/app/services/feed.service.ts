@@ -15,5 +15,12 @@ export class FeedService {
     const path = 'assets/' + filename;
     return this.http.get(path);
   }
-
 }
+
+export type FeedItem = {
+  title: string,
+  url: string,
+  date: string,
+  failed?: boolean
+};
+export type FeedArray = Array<FeedItem>;

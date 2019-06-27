@@ -1,17 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FeedService } from '../services/feed.service';
+import { FeedService, FeedArray } from '../services/feed.service';
 import { Lightbox, LightboxEvent, LIGHTBOX_EVENT } from 'ngx-lightbox';
 import { Subscription } from 'rxjs';
-
-
-// should be in elsewhere?
-type feedItem = {
-  title: string,
-  url: string,
-  date: string,
-  failed?: boolean
-};
-type feedArray = Array<feedItem>;
 
 
 @Component({
@@ -21,7 +11,7 @@ type feedArray = Array<feedItem>;
 })
 export class MyGalleryComponent implements OnInit {
   @Input() assetFile:string; // the name of the file in the assets 
-  feed: feedArray;
+  feed: FeedArray;
   private slideshow = [];
   private slideshowSub:Subscription;
 
@@ -56,7 +46,7 @@ export class MyGalleryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.feedService.getAsset(this.assetFile).subscribe((data:feedArray) => {
+    this.feedService.getAsset(this.assetFile).subscribe((data:FeedArray) => {
       this.feed = data;
       this.initSlideShow();
     });
