@@ -27,14 +27,14 @@ export class MyGalleryComponent implements OnInit {
 
   imageFallback(event) {
     const i = event.target.attributes['data-index'].value;
-    const item = this.feed.fail(i);
-    this.removeFromSlideshow(item.url);
+    const url = this.feed.fail(i);
+    this.removeFromSlideshow(url);
   }
 
   openSlideshow(index: number): void {
     // prevent opening slideshow for error images
     // TODO: change mouse indicator in template
-    if (this.feed[index].failed) return;
+    if (this.feed.feed[index].failed) return;
     // open lightbox
     this._lightbox.open(this.slideshow, index);
     this.slideshowSub = this._lightboxEvent.lightboxEvent$
@@ -70,7 +70,7 @@ export class MyGalleryComponent implements OnInit {
     });
   }
 
-  private removeFromSlideshow(url):void {
+  private removeFromSlideshow(url:string):void {
     this.slideshow = this.slideshow.filter(item => { return url !== item.src });
   }
 

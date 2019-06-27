@@ -12,12 +12,17 @@ export class FeedArray  {
     this.feed = feed;
   }
 
-  fail(i:number):FeedItem {
+  /**
+   * Mark an item as failed to load
+   * @param i the index at the feed to be marked as failed
+   */
+  fail(i:number):string {
     const item = this.feed[i];
+    const failedUrl = item.url;
     item.url = 'https://www.shareicon.net/data/128x128/2016/07/21/799500_people_512x512.png';
     item.title = item.title + "(LOAD FAILED)";
     item.failed = true;
-    return item;
+    return failedUrl;
   }
 
   map(fn:(value:FeedItem, index:number, array:Array<FeedItem>) => Array<FeedItem>) {
